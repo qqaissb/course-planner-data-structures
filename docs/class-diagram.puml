@@ -1,0 +1,112 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Main {
+  + main(args: String[]) : void
+}
+
+class Course {
+  - id : String
+  - title : String
+  - cred : int
+  - grade : int
+  - isCompleted : boolean
+  - pre : String[]
+  + Course(id: String, title: String, cred: int, pre: String[])
+  + getId() : String
+  + getTitle() : String
+  + getCred() : int
+  + getGrade() : int
+  + isCompleted() : boolean
+  + getPre() : String[]
+  + markCompleted(grade: int) : void
+}
+
+class Node {
+  - course : Course
+  - next : Node
+  + Node(course: Course)
+  + getCourse() : Course
+  + getNext() : Node
+  + setNext(next: Node) : void
+}
+
+class Linked {
+  - head : Node
+  - size : int
+  + Linked()
+  + contains(id: String) : boolean
+  + insertLast(course: Course) : void
+  + deleteById(id: String) : void
+  + print() : void
+  + isEmpty() : boolean
+  + size() : int
+}
+
+class Queue {
+  - front : Node
+  - rear : Node
+  - size : int
+  + Queue()
+  + enqueue(course: Course) : void
+  + dequeue() : Course
+  + contains(id: String) : boolean
+  + print() : void
+  + isEmpty() : boolean
+  + size() : int
+}
+
+class NodeBST {
+  - course : Course
+  - left : NodeBST
+  - right : NodeBST
+  + NodeBST(course: Course)
+  + getCourse() : Course
+  + getLeft() : NodeBST
+  + setLeft(left: NodeBST) : void
+  + getRight() : NodeBST
+  + setRight(right: NodeBST) : void
+}
+
+class BST {
+  - root : NodeBST
+  + BST()
+  + insert(course: Course) : void
+  + isEmpty() : boolean
+  + printSortedRecords() : void
+  - inOrder(node: NodeBST) : void
+  + printHighestGrade() : void
+  + printLowestGrade() : void
+  + searchByGrade(targetGrade: int) : void
+  - searchHelper(current: NodeBST, targetGrade: int) : boolean
+}
+
+class CourseGraph {
+  - graph : Course[]
+  - size : int
+  - capacity : int
+  + CourseGraph(capacity: int)
+  + addCourse(course: Course) : void
+  + findCourse(id: String) : Course
+  + canRegister(target: Course) : boolean
+  + printUnlockedCourses(completedCourse: Course) : void
+  - exploreUnlocks(targetCourse: Course, visited: boolean[]) : boolean
+  + printCatalog() : void
+}
+
+Linked "1" *-- "0..*" Node : contains
+Queue "1" *-- "0..*" Node : contains
+BST "1" *-- "0..*" NodeBST : contains
+
+Node "1" o-- "1" Course : payload
+NodeBST "1" o-- "1" Course : payload
+CourseGraph "1" o-- "0..*" Course : catalog
+
+Main ..> CourseGraph : uses
+Main ..> Linked : uses
+Main ..> Queue : uses
+Main ..> BST : uses
+Main ..> Course : uses
+
+@enduml
